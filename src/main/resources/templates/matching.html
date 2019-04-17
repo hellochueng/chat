@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>netty talk room</title>
+    <script src="http://localhost:81/js/jquery.min.js"></script>
+</head>
+<body>
+    <div id="ready">
+        name:<input id='name' value="" /><br/>
+        pwd:<input id="pwd" value="" /><br/>
+        <button onclick="login()">登录</button>
+    </div>
+
+    <input hidden="hidden" type="text" readonly="readonly" id="token" value=""/>
+
+    <div id="roomList">
+        新建房间名:<input id="newRoom" type="text" />
+    </div>
+
+    <div id="button">
+        <button onclick="addRoom()">加入房间</button>
+    </div>
+
+    <div id="bottom">
+        <div id="title"></div>
+        <div>
+            <input type="text" id="mag"/>
+            <input type="button" value="发送" onclick="send()"/>
+        </div>
+        <div id="sed" style="height: 300px;width: 500px;border:1px solid;"></div>
+    </div>
+</body>
+<script th:inline="javascript">
+    var baseUrl="http://localhost:8888";
+    var Mes={token:"",room:"",message:""};
+    var socket = undefined;
+    $(function() {
+        $('#bottom').hide()
+        $("#roomList").hide()
+        $("#button").hide()
+
+    });
+
+    function login() {
+        $.ajax({
+            type:"get",
+            url:baseUrl+"/user/login?username="+$("#name").val()+"&pwd="+$("#pwd").val()+"&clientType=pc",
+            dataType:"text",
+            success:function (data) {
+                $("#ready").hide()
+                $("#token").val(data)
+                getAllRoom()
+                Mes.token=data;
+            }
+        });
+    }
+
+    function getAllRoom() {
+        $.ajax({
+            type:"get",
+            url:baseUrl+"/room/allRoom",
+            dataType:"text",
+            success:function (data) {
+                $("#button").show()
+                console.log(data)
+                // for(var i=0;i<data.length;i++){
+                //     $("#roomList").appendChild("<div><input type='checkbox' value='"+data[i].+"'></div>")
+                // }
+                $("#roomList").show();
+            }
+        });
+    }
+
+    //进入聊天室
+    function addRoom() {
+        if (!window.WebSocket) {
+            window.WebSocket = window.MozWebSocket;
+        }
+        if (window.WebSocket) {
+
+            var token=$("#token").val()
+            var room=$("#newRoom").val();
+
+            //获取h5 socket
+            socket = new WebSocket("ws://127.0.0.1:9999/"+room+"/"+token+"/pc");
+
+            $('#bottom').show();
+            //接收消息
+            //webSocket的链接
+            socket.onopen = function(data) {
+                Mes.room = room
+                // $('#ready').hide();
+                Mes.message = '10001';
+                //链接成功后发送用户信息进入聊天室
+                socket.send(JSON.stringify(Mes));
+            }
+
+            socket.onmessage = function(data){
+
+                $('#sed').append('<span>'+ data.data + '</span><br/>');
+                // var mage = JSON.parse(data.data);
+                //
+                // //用户发的消息
+                // if (mage.message == '10001') {//10001为上线
+                //
+                // } else {
+                //     $('#sed').append('<span>'+ mage.name + ' : ' + mage.message + '</span><br/>');
+                // }
+            }
+
+            //webSocket关闭
+            socket.onclose = function(data) {
+                console.log("socket.onclose:")
+                console.log(data);
+            }
+
+            //webSocket错误信息
+            socket.onerror = function(data) {
+                console.log("socket.onerror:")
+                console.log(data);
+            }
+        } else {
+            alert("抱歉，您的浏览器不支持WebSocket协议!");
+        }
+
+    }
+
+    //发送消息
+    function send() {
+        Mes.message = $('#mag').val();
+        socket.send(JSON.stringify(Mes));
+    }
+</script>
+</html>
