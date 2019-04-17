@@ -82,16 +82,21 @@ public class TalkHandler extends SimpleChannelInboundHandler<Object> {
     }
 
     private void handleWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) throws Exception {
+
         // 判断是否是关闭链路的指令
         if (frame instanceof CloseWebSocketFrame) {
+
             handshaker.close(ctx.channel(), (CloseWebSocketFrame) frame.retain());
             return;
         }
+
         // 判断是否是Ping消息
         if (frame instanceof PingWebSocketFrame) {
+
             ctx.channel().write(new PongWebSocketFrame(frame.content().retain()));
             return;
         }
+
         // 当前只支持文本消息，不支持二进制消息
         if ((frame instanceof TextWebSocketFrame)) {
             //获取发来的消息
@@ -99,7 +104,6 @@ public class TalkHandler extends SimpleChannelInboundHandler<Object> {
 
             //消息转成Mage
             Mes mes = Mes.strJson2Mage(text);
-
 
             User user = tokenUser.getUserByToken(mes.getToken());
 
@@ -117,40 +121,6 @@ public class TalkHandler extends SimpleChannelInboundHandler<Object> {
                     if (pc != null) pc.writeAndFlush(new TextWebSocketFrame(user.getName() + ":" + mes.getMessage()));
                 }
             });
-
-////            if (!UserRoomContainer.getOnLine().containsKey(mes1.getId())) {
-////
-////                UserRoomContainer.getOnLine().put(mes1.getId(), mes1.getRoom());
-////            }
-////
-////            ConcurrentMap<String, UserAndRoom> concurrentMap = null;
-////
-////            if (!UserRoomContainer.getMap().containsKey(mes1.getRoom())){
-////
-////                ConcurrentMap<String,UserAndRoom> map = new ConcurrentHashMap();
-////
-////                map.put(mes1.getId(),new UserAndRoom(ctx,mes1));
-////
-////                UserRoomContainer.getMap().put(mes1.getRoom(),map);
-////
-////                concurrentMap = map;
-////            } else {
-////                concurrentMap = UserRoomContainer.getMap().get(mes1.getRoom());
-////                if(!concurrentMap.containsKey(mes1.getId())){
-////                    concurrentMap.put(mes1.getId(),new UserAndRoom(ctx,mes1));
-////                }
-////            }
-//
-//            //将用户发送的消息发给所有在同一聊天室内的用户
-//            System.out.println();
-//
-//            concurrentMap.forEach((id, iom) -> {
-//                try {
-//                    iom.send(mes1);
-//                } catch (Exception e) {
-//                    System.out.println(e);
-//                }
-//            });
 
         } else {
             System.err.println("------------------error--------------------------");
@@ -172,6 +142,5 @@ public class TalkHandler extends SimpleChannelInboundHandler<Object> {
             f.addListener(ChannelFutureListener.CLOSE);
         }
     }
-
 
 }
