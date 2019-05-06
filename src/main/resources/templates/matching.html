@@ -24,11 +24,12 @@
 
     <div id="bottom">
         <div id="title"></div>
+        <div id="sed" style="height: 300px;width: 500px;border:1px solid;"></div>
         <div>
             <input type="text" id="mag"/>
             <input type="button" value="发送" onclick="send()"/>
         </div>
-        <div id="sed" style="height: 300px;width: 500px;border:1px solid;"></div>
+
     </div>
 </body>
 <script th:inline="javascript">
@@ -89,6 +90,7 @@
             //接收消息
             //webSocket的链接
             socket.onopen = function(data) {
+                socket.onclose("断开之前连接");
                 Mes.room = room
                 // $('#ready').hide();
                 Mes.message = '10001';
@@ -99,20 +101,12 @@
             socket.onmessage = function(data){
 
                 $('#sed').append('<span>'+ data.data + '</span><br/>');
-                // var mage = JSON.parse(data.data);
-                //
-                // //用户发的消息
-                // if (mage.message == '10001') {//10001为上线
-                //
-                // } else {
-                //     $('#sed').append('<span>'+ mage.name + ' : ' + mage.message + '</span><br/>');
-                // }
+
             }
 
             //webSocket关闭
             socket.onclose = function(data) {
                 console.log("socket.onclose:")
-                console.log(data);
             }
 
             //webSocket错误信息
@@ -130,6 +124,7 @@
     function send() {
         Mes.message = $('#mag').val();
         socket.send(JSON.stringify(Mes));
+        $('#mag').val("");
     }
 </script>
 </html>

@@ -77,6 +77,4 @@ public class TalkRoomImpl implements TalkRoom {
         BoundSetOperations roomOP = redisTemplate.boundSetOps(roomId);
         return roomOP.members();
     }
-
-
 }
