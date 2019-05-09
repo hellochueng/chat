@@ -1,4 +1,4 @@
-package org.lzz.chat.payconfig;
+package org.lzz.chat.payconfig.alipay;
 
 public class AlipayConfig {
 
