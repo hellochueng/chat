@@ -1,26 +1,32 @@
 package org.lzz.chat.payconfig.weichat;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 import static org.lzz.chat.payconfig.weichat.WXPayConstants.SignType;
+
+@Component
 public class WXPay {
 
-    private WXPayConfig config;
+    @Autowired
+    private final WXPayConfig config;
     private SignType signType;
     private boolean autoReport;
     private boolean useSandbox;
     private String notifyUrl;
     private WXPayRequest wxPayRequest;
 
+    @Autowired
     public WXPay(final WXPayConfig config) throws Exception {
-        this(config, null, true, false);
+        this(config, WeChatPayConfig.PC_NOTIFY_URL, true, WeChatPayConfig.useSandbox);
     }
 
     public WXPay(final WXPayConfig config, final boolean autoReport) throws Exception {
         this(config, null, autoReport, false);
     }
-
 
     public WXPay(final WXPayConfig config, final boolean autoReport, final boolean useSandbox) throws Exception{
         this(config, null, autoReport, useSandbox);

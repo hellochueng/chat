@@ -8,24 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
 public interface AliPayService extends Pay {
 
-    Integer increatment();
+    String payInWeb(String payNumber, PayPlatform plat) throws IOException, AlipayApiException;
 
-    int getResult();
-
-    void increatmentException();
-
-    void payInPcWeb(String payNumber, PayPlatform plat, HttpServletRequest request, HttpServletResponse resp) throws IOException, AlipayApiException;
-
-    void notifyAndTrunPage(String payNumber, PayPlatform patform, HttpServletRequest req, HttpServletResponse resp) throws IOException, AlipayApiException;
-
-    void notifyAndResponse(String payNumber, HttpServletRequest req, HttpServletResponse resp) throws IOException, AlipayApiException;
+    boolean rsaCheckV1(String payNumber, Map<String,String> params) throws IOException, AlipayApiException;
 
     Result getAppPayInfo(String seriaNumber);
 
-    void refund(String out_trade_no,String trade_no,String reason, HttpServletRequest req, HttpServletResponse resp) throws IOException, AlipayApiException;
+    Result refund(String out_trade_no,String trade_no,String reason) throws IOException, AlipayApiException;
 
-    void query(String out_trade_no,String trade_no, HttpServletRequest req, HttpServletResponse resp) throws IOException, AlipayApiException;
+    Result query(String out_trade_no,String trade_no) throws IOException, AlipayApiException;
 }

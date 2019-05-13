@@ -26,6 +26,4 @@ public class RoomController {
 
         return talkRoom.getAllRoom();
     }
-
-
 }
