@@ -42,11 +42,6 @@ public class WeiChatPayServiceImpl extends BasePay implements WeiChatPayService 
     }
 
     @Override
-    public void turnPage(String payNumber, PayPlatform patform){
-
-    }
-
-    @Override
     public void notify(Map<String, String[]> parameterMap) throws Exception {
 
         String notifyData = "...."; // 支付结果通知的xml格式数据

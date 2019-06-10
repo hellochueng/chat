@@ -21,12 +21,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>io.netty</groupId>-->
-            <!--<artifactId>netty-all</artifactId>-->
-            <!--<version>4.0.28.Final</version>-->
-        <!--</dependency>-->
-
+        <!--springboot测试-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.9.10</version>
+        </dependency>
         <!-- Spring Boot Mybatis 依赖 -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>

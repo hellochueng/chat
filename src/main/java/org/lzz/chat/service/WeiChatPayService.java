@@ -13,8 +13,6 @@ public interface WeiChatPayService extends Pay {
 
     Map<String, String> gotoPay(String payNumber, String ip,String type) throws Exception;
 
-    void turnPage(String payNumber, PayPlatform patform);
-
     void notify(Map<String, String[]> parameterMap) throws Exception;
 
     Result getAppPayInfo(String seriaNumber);

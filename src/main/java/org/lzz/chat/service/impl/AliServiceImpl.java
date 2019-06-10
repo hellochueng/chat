@@ -7,6 +7,7 @@ import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.request.AlipayTradeRefundRequest;
+import com.alipay.api.response.AlipayTradePagePayResponse;
 import org.lzz.chat.entity.PayPlatform;
 import org.lzz.chat.entity.Result;
 import org.lzz.chat.payconfig.alipay.AlipayConfig;
@@ -27,6 +28,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class AliServiceImpl extends BasePay implements AliPayService {
 
+    //获得初始化的AlipayClient
+    private final static AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl,
+                                                                                AlipayConfig.app_id,
+                                                                                AlipayConfig.merchant_private_key,
+                                                                                "json",
+                                                                                AlipayConfig.charset,
+                                                                                AlipayConfig.alipay_public_key,
+                                                                                AlipayConfig.sign_type);
     /**
      *
      * @param payNumber
@@ -37,36 +46,27 @@ public class AliServiceImpl extends BasePay implements AliPayService {
      */
     @Override
     public String payInWeb(String payNumber,PayPlatform plat) throws IOException, AlipayApiException {
-        //获得初始化的AlipayClient
-        AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl,
-                AlipayConfig.app_id,
-                AlipayConfig.merchant_private_key,
-                "json",
-                AlipayConfig.charset,
-                AlipayConfig.alipay_public_key,
-                AlipayConfig.sign_type);
 
         //设置请求参数
         AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
         alipayRequest.setReturnUrl(AlipayConfig.return_url+"/"+plat+"/"+payNumber);
         alipayRequest.setNotifyUrl(AlipayConfig.notify_url+"/"+payNumber);
-
         //商户订单号，商户网站订单系统中唯一订单号，必填
         String out_trade_no = payNumber;
         //付款金额，必填
         String total_amount = new String("100.00");
         //订单名称，必填
-        String subject = new String("喝就是喝".getBytes("iso8859-1"),"gb2312");
+        String subject = new String("喝就是喝");
         //商品描述，可空
-        String body = new String("这是一件好商品，醉生梦死就是喝".getBytes("iso8859-1"),"gb2312");
+        String body = new String("这是一件好商品，醉生梦死就是喝");
 
         alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
                 + "\"total_amount\":\""+ total_amount +"\","
                 + "\"subject\":\""+ subject +"\","
                 + "\"body\":\""+ body +"\","
                 + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
-
-        return alipayClient.pageExecute(alipayRequest).getBody();
+        AlipayTradePagePayResponse alipayTradePagePayResponse = alipayClient.pageExecute(alipayRequest);
+        return alipayTradePagePayResponse.getBody();
     }
 
     public static Map<String,String> getResponseParam(Map<String,String[]> requestParams) throws UnsupportedEncodingException {
@@ -100,8 +100,6 @@ public class AliServiceImpl extends BasePay implements AliPayService {
 
     @Override
     public Result refund(String out_trade_no, String trade_no,String reason) throws IOException, AlipayApiException {
-        //获得初始化的AlipayClient
-        AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
 
         //设置请求参数
         AlipayTradeRefundRequest alipayRequest = new AlipayTradeRefundRequest();
@@ -135,8 +133,6 @@ public class AliServiceImpl extends BasePay implements AliPayService {
 
     @Override
     public Result query(String out_trade_no,String trade_no) throws AlipayApiException {
-        //获得初始化的AlipayClient
-        AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
 
         //设置请求参数
         AlipayTradeQueryRequest alipayRequest = new AlipayTradeQueryRequest();

@@ -37,6 +37,5 @@ public class hadoop {
         }
         inputStream.close();
         System.out.println(new String(b,0,len));
-
     }
 }

@@ -26,13 +26,13 @@ public class WeiChatPayController {
 
     //创建微信支付
     @RequestMapping("/weiChat/{seriaNumber}")
-    public Map<String, String> gotoPay(@PathVariable String seriaNumber, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public Map<String, String> gotoPay(@PathVariable String seriaNumber, HttpServletRequest req) throws Exception {
         return weiChatPayService.gotoPay(seriaNumber,req.getRemoteAddr(),WeChatPayConfig.TRADE_TYPE_NATIVE);
     }
 
     //创建微信支付
     @RequestMapping("/weiChat/app/{seriaNumber}")
-    public Map<String, String> gotoAppPay(@PathVariable String seriaNumber, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public Map<String, String> gotoAppPay(@PathVariable String seriaNumber, HttpServletRequest req) throws Exception {
         return weiChatPayService.gotoPay(seriaNumber,req.getRemoteAddr(), WeChatPayConfig.TRADE_TYPE_APP);
     }
 
@@ -43,10 +43,10 @@ public class WeiChatPayController {
         QRCodeUtil.encode(codeUrl, response.getOutputStream(), false, 0);
     }
 
-    //生成二维码
+    //相应
     @RequestMapping("/weiChat/notify")
     @ResponseBody
-    public void notify( HttpServletRequest req, HttpServletResponse response) throws Exception {
+    public void notify( HttpServletRequest req) throws Exception {
         Map<String, String[]> parameterMap = req.getParameterMap();
         weiChatPayService.notify(parameterMap);
     }

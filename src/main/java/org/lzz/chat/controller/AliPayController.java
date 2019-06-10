@@ -94,7 +94,7 @@ public class AliPayController {
         return aliPayService.query(orderId, tradeNo);
     }
 
-    //阿里退款
+    //退款
     @RequestMapping("/aliPay/refund/{orderId}/{tradeNo}/{reason}")
     public Result refund(@PathVariable String orderId,@PathVariable String tradeNo,@PathVariable String reason,HttpServletRequest req, HttpServletResponse resp) throws IOException, AlipayApiException {
         return aliPayService.refund(orderId, tradeNo,reason);
