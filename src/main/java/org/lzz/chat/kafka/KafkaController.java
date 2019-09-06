@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class KafkaController {
-    private static Logger logger = LoggerFactory.getLogger(KafkaController.class);
+
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 

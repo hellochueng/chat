@@ -34,10 +34,9 @@ public class ProxyHandler implements InvocationHandler {
             if(result instanceof Throwable) {
                 throw (Throwable) result;
             }
-                return result;
+            return result;
         } finally {
             socket.shutdownOutput();
         }
     }
-
 }

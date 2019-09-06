@@ -4,7 +4,6 @@ import org.apache.hadoop.conf.Configuration;
 
 /**
  * 获得hadoop连接配置
- * Created by shirukai on 2017/11/8.
  */
 public class Conf {
     public static Configuration get (){

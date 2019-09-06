@@ -9,7 +9,6 @@ import java.io.*;
 
 /**
  * 对HDFS文件操作
- * Created by shirukai on 2017/11/8.
  */
 public class Files {
     private static FileSystem fs = null;

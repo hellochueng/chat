@@ -1,7 +1,5 @@
 package org.lzz.chat.mapreduce.scorecount;
 
-import mapreduce.Conf;
-import mapreduce.Files;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -12,6 +10,8 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.lzz.chat.mapreduce.Conf;
+import org.lzz.chat.mapreduce.Files;
 
 import java.io.IOException;
 import java.util.ArrayList;

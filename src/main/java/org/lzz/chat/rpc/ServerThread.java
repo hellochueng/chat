@@ -38,8 +38,8 @@ public class ServerThread implements Runnable {
                     Class<?>[] parameterTypes = (Class<?>[]) input.readObject();
                     Object[] arguments = (Object[]) input.readObject();
                     Method method = obj.getClass().getMethod(methodName, parameterTypes);  
-                    Object result = method.invoke(obj, arguments);  
-                    output.writeObject(result); 
+                    Object result = method.invoke(obj, arguments);
+                    output.writeObject(result);
                 } catch (Throwable t) {
                     output.writeObject(t);
                 }

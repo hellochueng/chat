@@ -5,7 +5,6 @@ import org.lzz.chat.app;
 import org.lzz.chat.redis.RedisDistributedLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.junit.Test;

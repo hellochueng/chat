@@ -4,6 +4,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * RPC服务提供器
@@ -13,7 +14,7 @@ import java.util.List;
 public class RpcProvider {
     
     //存储注册的服务列表
-    private static List<Object> serviceList;
+    private static CopyOnWriteArrayList<Object> serviceList;
     
     /**
      * 发布rpc服务
@@ -21,7 +22,7 @@ public class RpcProvider {
      * @throws Exception
      */
     public static void export(int port,Object... services) throws Exception {
-        serviceList=Arrays.asList(services);
+        serviceList=new CopyOnWriteArrayList(services);
         ServerSocket server = new ServerSocket(port);
         Socket client = null;
         while (true) {

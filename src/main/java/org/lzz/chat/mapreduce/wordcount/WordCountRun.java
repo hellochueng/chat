@@ -1,7 +1,7 @@
 package org.lzz.chat.mapreduce.wordcount;
 
-import mapreduce.Files;
 import org.apache.log4j.Logger;
+import org.lzz.chat.mapreduce.Files;
 
 /**
  * 执行WordCount
