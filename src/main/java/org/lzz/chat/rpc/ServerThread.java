@@ -56,7 +56,6 @@ public class ServerThread implements Runnable {
                 e.printStackTrace();
             }
         }
-
     }
 
     private Object findService(Class serviceClass) {
@@ -69,5 +68,4 @@ public class ServerThread implements Runnable {
         }
         return null;
     }
-
 }
