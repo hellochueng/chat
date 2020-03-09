@@ -6,7 +6,7 @@ import java.util.Set;
 
 public interface TalkRoom {
 
-    void addRoom(String id,String room);
+    void addRoom(Long id,String room);
 
     void removeRoom(String room);
 

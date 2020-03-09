@@ -14,7 +14,7 @@ public class ChannelServiceImpl implements ChannelService {
     public Map<String,ChannelHandlerContext> channelHandlerContextMap = new ConcurrentHashMap<>();
 
     @Override
-    public void addChannel(ChannelHandlerContext ctx, ClientType clientType, String id) {
+    public void addChannel(ChannelHandlerContext ctx, ClientType clientType, Long id) {
 
         if(channelHandlerContextMap.containsKey(clientType.getInfo()+id)) {
 

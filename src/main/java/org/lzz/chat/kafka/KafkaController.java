@@ -25,8 +25,8 @@ public class KafkaController {
         return "success";
     }
 
-    @KafkaListener(topics = "test")
-    public void receive(ConsumerRecord<?, ?> consumer) {
-        System.out.println("{"+consumer.topic()+"} - {"+consumer.key()+"}:{"+consumer.value()+"}");
-    }
+//    @KafkaListener(topics = "test")
+//    public void receive(ConsumerRecord<?, ?> consumer) {
+//        System.out.println("{"+consumer.topic()+"} - {"+consumer.key()+"}:{"+consumer.value()+"}");
+//    }
 }

@@ -35,13 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * @Description
- * @project springboot_learn
- * @package com.dalaoyang.controller
- * @email yangyang@dalaoyang.cn
- * @date 2018/5/4
- */
 @RestController
 public class GoodsController {
 
@@ -164,9 +157,7 @@ public class GoodsController {
             public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
 
                 ArrayList<GoodsInfo> goodsInfos = new ArrayList<GoodsInfo>();
-
                 SearchHits hits = response.getHits();
-
                 for (SearchHit searchHit : hits) {
                     if (hits.getHits().length <= 0) {
                         return null;
@@ -174,7 +165,7 @@ public class GoodsController {
                     GoodsInfo goodsInfo = new GoodsInfo();
                     String highLightMessage = searchHit.getHighlightFields().get(field).fragments()[0].toString();
                     goodsInfo.setId(Long.parseLong(searchHit.getId()));
-                    goodsInfo.setName(String.valueOf(searchHit.getSourceAsMap().get("name")));
+                    goodsInfo.setGoodname(String.valueOf(searchHit.getSourceAsMap().get("name")));
                     goodsInfo.setDescription(String.valueOf(searchHit.getSourceAsMap().get("description")));
                     // 反射调用set方法将高亮内容设置进去
                     try {

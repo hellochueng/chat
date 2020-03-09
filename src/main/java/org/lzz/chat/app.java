@@ -1,6 +1,7 @@
 package org.lzz.chat;
 
 import org.apache.hadoop.fs.FileStatus;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.hadoop.fs.FsShell;
 
 @SpringBootApplication
+@MapperScan({"org.lzz.chat.mapper"})
 public class app extends SpringBootServletInitializer implements CommandLineRunner {
 
 //    @Autowired

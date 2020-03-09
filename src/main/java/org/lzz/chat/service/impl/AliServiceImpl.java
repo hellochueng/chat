@@ -14,7 +14,6 @@ import org.lzz.chat.payconfig.alipay.AlipayConfig;
 import org.lzz.chat.service.AliPayService;
 import org.lzz.chat.service.BasePay;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

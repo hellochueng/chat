@@ -5,7 +5,7 @@ import org.lzz.chat.entity.ClientType;
 
 public interface ChannelService {
 
-    void addChannel(ChannelHandlerContext ctx, ClientType clientType, String id);
+    void addChannel(ChannelHandlerContext ctx, ClientType clientType, Long id);
 
     void deleteChannel(ClientType clientType, String id);
 

@@ -32,7 +32,7 @@ public class TalkRoomImpl implements TalkRoom {
     private RedisTemplate redisTemplate;
 
     @Override
-    public void addRoom(String id,String room) {
+    public void addRoom(Long id,String room) {
         BoundHashOperations boundHashOperations = redisTemplate.boundHashOps(ROOM);
 
         String roomId = null;

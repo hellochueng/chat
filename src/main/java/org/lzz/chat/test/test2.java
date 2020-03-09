@@ -1,5 +1,6 @@
 package org.lzz.chat.test;
 
+import org.lzz.chat.util.CommonUtils;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 
 import java.util.*;
@@ -20,12 +21,14 @@ public class test2 {
     }
 
     public static void main(String[] args) {
-        TreeNode root = new TreeNode(1);
-        root.left = new TreeNode(2);
-        root.left.left = new TreeNode(4);
-        root.right = new TreeNode(3);
-        root.right.right = new TreeNode(5);
-        zigzagLevelOrder2(root);
+        Date a = new Date(1573228740000L);
+        System.out.println(CommonUtils.formatToChinese(a));
+//        TreeNode root = new TreeNode(1);
+//        root.left = new TreeNode(2);
+//        root.left.left = new TreeNode(4);
+//        root.right = new TreeNode(3);
+//        root.right.right = new TreeNode(5);
+//        zigzagLevelOrder2(root);
     }
 
 

@@ -20,7 +20,7 @@ import com.alibaba.druid.support.http.WebStatFilter; //这个包容易导入错�
 @Configuration
 public class DruidConfig {
  
-    @ConfigurationProperties(prefix = "spring.datasource")
+    @ConfigurationProperties(prefix = "spring.datasource.druid")
     @Bean
     public DataSource druid() {
         return new DruidDataSource();
@@ -33,12 +33,9 @@ public class DruidConfig {
  
         Map<String, String> initParams = new HashMap<>();
         // 监控页面登录用户名
- 
         initParams.put("loginUsername", "admin");
- 
         // 监控页面登录用户密码
         initParams.put("loginPassword", "123456");
- 
         // ip白名单（没有配置或者为空，则允许所有访问）
         initParams.put("allow", "");
  

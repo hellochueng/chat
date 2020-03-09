@@ -137,7 +137,11 @@ public class BaseZookeeper implements Watcher{
    public static void main(String[] args) throws Exception {
        BaseZookeeper zookeeper = new BaseZookeeper();
        zookeeper.connectZookeeper("139.199.208.159:2181");
-       List<String> children = zookeeper.getChildren("/");
+       List<String> children = zookeeper.getChildren("/registry/data0000000008");
+      String a = zookeeper.getData("/registry/data0000000008");
+      System.out.println(a);
+//      zookeeper.createNode("/rpc","/service.UserService");
+//      List<String> children = zookeeper.getChildren("/rpc");
        System.out.println(children);
    }
 }

@@ -22,7 +22,7 @@ public class GoodsInfo implements Serializable {
     private Long id;
 
     @Field(type = FieldType.Text,fielddata = true, searchAnalyzer = "ik_max_word", analyzer = "ik_max_word")
-    private String name;
+    private String goodname;
 
     @Field(type = FieldType.Text,fielddata = true, searchAnalyzer = "ik_max_word", analyzer = "ik_max_word")
     private String description;
@@ -35,12 +35,12 @@ public class GoodsInfo implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getGoodname() {
+        return goodname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGoodname(String goodname) {
+        this.goodname = goodname;
     }
 
     public String getDescription() {
@@ -51,9 +51,9 @@ public class GoodsInfo implements Serializable {
         this.description = description;
     }
 
-    public GoodsInfo(Long id, String name, String description) {
+    public GoodsInfo(Long id, String goodname, String description) {
         this.id = id;
-        this.name = name;
+        this.goodname = goodname;
         this.description = description;
     }
 
