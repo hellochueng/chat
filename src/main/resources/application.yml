@@ -1,0 +1,22 @@
+#spring:
+#  rabbitmq:
+#    host: ${RABBIT_MQ_HOST:139.199.208.159}
+#    port: ${RABBIT_MQ_PORT:5672}
+#    username: ${RABBIT_MQ_USERNAME:admin}
+#    password: ${RABBIT_MQ_PASSWORD:admin}
+#    virtual-host: /
+#    #生产端
+#    publisher-confirms: true
+#    publisher-returns: true
+#    template:
+#      mandatory: true
+#    #消费端
+#    listener:
+#      simple:
+#        acknowledge-mode: manual
+#        #初始连接数量
+#        concurrency: 5
+#        #最大连接数量
+#        max-concurrency: 10
+#        #限流
+#        prefetch: 1
