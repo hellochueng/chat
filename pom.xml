@@ -24,6 +24,11 @@
         <hadoop.mapreduce.client.jobclient.version>2.4.0</hadoop.mapreduce.client.jobclient.version>
         <commons.lang.version>3.3.2</commons.lang.version>
         <commons.io.version>2.4</commons.io.version>
+        <project.name>lzz</project.name>
+        <!-- 私有仓库配置，需要settings.xml文件配合serverId对应的仓库服务 账号密码 -->
+        <docker.serverId>192.168.1.198</docker.serverId>
+        <docker.registry>192.168.1.197:5000</docker.registry>
+        <docker.host>http://192.168.1.198:2375</docker.host>
     </properties>
 
     <dependencies>
@@ -172,47 +177,172 @@
     </dependencies>
 
     <build>
-        <finalName>chat</finalName>
         <plugins>
+            <!-- Srping Boot 打包工具 打包成可执行的jar  -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.lzz.chat.app</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy-dependencies</id>
-                        <phase>prepare-package</phase>
                         <goals>
-                            <goal>copy-dependencies</goal>
+                            <goal>repackage</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                            <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>false</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
-        </plugins>
 
+            <!--打包后 复制jar包到指定文件目录-->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <!-- here the phase you need -->
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <!-- 复制资源后的输出目录 -->
+                            <outputDirectory>target</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/docker</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <!-- docker插件 -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.2.0</version>
+                <configuration>
+                    <!-- 私有仓库配置，需要settings.xml文件配合serverId对应的服务地址 -->
+                    <serverId>${docker.serverId}</serverId>
+                    <!-- docker私服地址 -->
+                    <registryUrl>${docker.registry}</registryUrl>
+                    <!-- 指定docker server的地址，该配置不需要本机安装docker -->
+                    <dockerHost>${docker.host}</dockerHost>
+                    <imageName>${project.name}/${project.artifactId}:${project.version}</imageName>
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                    </imageTags>
+                    <!-- docker的构建目录（构建上下文），包含Dockerfile  -->
+                    <dockerDirectory>${project.basedir}</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+                <executions>
+                    <!-- package之前清除上一次构建的image -->
+                    <execution>
+                        <id>remove-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>removeImage</goal>
+                        </goals>
+                        <configuration>
+                            <imageName>
+                                ${project.name}/${project.artifactId}
+                            </imageName>
+                            <imageTags>
+                                <imageTag>${project.version}</imageTag>
+                                <imageTag>latest</imageTag>
+                            </imageTags>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>remove-tag-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>removeImage</goal>
+                        </goals>
+                        <configuration>
+                            <imageName>
+                                ${docker.registry}/${project.name}/${project.artifactId}
+                            </imageName>
+                            <imageTags>
+                                <imageTag>${project.version}</imageTag>
+                                <imageTag>latest</imageTag>
+                            </imageTags>
+                        </configuration>
+                    </execution>
+                    <!-- 将docker:build绑定到package这个phase  -->
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                        <configuration>
+                            <!-- imageName中若不指定tag，则会打上latest -->
+                            <imageName>${project.name}/${project.artifactId}:${project.version}</imageName>
+                            <!-- 可以使用<imageTags>标签打其他额外的tag -->
+                        </configuration>
+                    </execution>
+                    <!-- 将docker:tag绑定到package这个phase  -->
+                    <execution>
+                        <id>tag-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <image>${project.name}/${project.artifactId}:${project.version}</image>
+                            <newName>${docker.registry}/${project.name}/${project.artifactId}:${project.version}</newName>
+                        </configuration>
+                    </execution>
+                    <!--<execution>-->
+                        <!--<id>tag-image-latest</id>-->
+                        <!--<phase>deploy</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>tag</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<image>${project.name}/${project.artifactId}:${project.version}</image>-->
+                            <!--<newName>${docker.registry}/${project.name}/${project.artifactId}:latest</newName>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                    <!-- 将docker:push绑定到deploy这个phase  -->
+                    <execution>
+                        <id>push-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <imageName>
+                                ${docker.registry}/${project.name}/${project.artifactId}:${project.version}
+                            </imageName>
+                        </configuration>
+                    </execution>
+                    <!--<execution>-->
+                        <!--<id>push-image-latest</id>-->
+                        <!--<phase>deploy</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>push</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<imageName>-->
+                                <!--${docker.registry}/${project.name}/${project.artifactId}:latest-->
+                            <!--</imageName>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
 </project>

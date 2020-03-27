@@ -125,7 +125,8 @@ public class UserSearchController {
         String field = "user_name";
 
         QueryBuilder queryBuilder = QueryBuilders.boolQuery()
-                .should(QueryBuilders.matchQuery("user_name",query));
+                .should(QueryBuilders.matchQuery("user_name",query))
+                .should(QueryBuilders.rangeQuery("pwd").gte(1));
 
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder)
                 .withPageable(PageRequest.of(index,PAGESIZE))

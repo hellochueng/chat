@@ -46,7 +46,11 @@ public class Result implements Serializable{
     public Result() {
         super();
     }
-
+    public static Result success(){
+        return new Result(10001,"",null);
+//        this.message = message;
+//        this.object = object;
+    }
     public Result(Integer code, String message, Object object){
         this.code = code;
         this.message = message;

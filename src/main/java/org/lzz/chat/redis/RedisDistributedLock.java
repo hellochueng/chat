@@ -37,19 +37,21 @@ public class RedisDistributedLock{
     private final Logger logger = LoggerFactory.getLogger(RedisDistributedLock.class);
  
     public boolean setLock(String key, long expire) {
-        try {
-            RedisCallback<String> callback = (connection) -> {
-                JedisCommands commands = (JedisCommands) connection.getNativeConnection();
-                String uuid = UUID.randomUUID().toString();
-                return commands.set(key, uuid, "NX", "PX", expire);
-            };
-            String result = redisTemplate.execute(callback);
- 
-            return !StringUtils.isEmpty(result);
-        } catch (Exception e) {
-            logger.error("set redis occured an exception", e);
+        Boolean lock = false;
+        while (!lock) {
+            try {
+                RedisCallback<String> callback = (connection) -> {
+                    JedisCommands commands = (JedisCommands) connection.getNativeConnection();
+                    String uuid = UUID.randomUUID().toString();
+                    return commands.set(key, uuid, "NX", "PX", expire);
+                };
+                String result = redisTemplate.execute(callback);
+                lock = !StringUtils.isEmpty(result);
+            } catch (Exception e) {
+                logger.error("set redis occured an exception", e);
+            }
         }
-        return false;
+        return true;
     }
  
     public String get(String key) {

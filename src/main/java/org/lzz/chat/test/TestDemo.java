@@ -37,7 +37,7 @@ public class TestDemo {
     @Autowired private UserMapper userMapper;
     @Autowired private SnowFlakeGenerator snowFlakeGenerator;
 
-    @Autowired private MQSender mqSender;
+//    @Autowired private MQSender mqSender;
 
     @Test
     public void rabbitTest() throws Exception {
@@ -50,7 +50,7 @@ public class TestDemo {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                mqSender.send(message);
+//                mqSender.send(message);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,6 +80,7 @@ public class TestDemo {
 
     @Test
     public void test1() throws InterruptedException {
+        System.out.println("1-----------等待锁");
         while(redisDistributedLock.setLock("lock1",20000)){
             System.out.println("1-----------进入锁");
             Thread.sleep(10000);
@@ -90,6 +91,7 @@ public class TestDemo {
 
     @Test
     public void test2() throws InterruptedException {
+        System.out.println("2-----------等待锁");
         while(redisDistributedLock.setLock("lock1",20000)){
             System.out.println("2--------进入锁");
             Thread.sleep(10000);
