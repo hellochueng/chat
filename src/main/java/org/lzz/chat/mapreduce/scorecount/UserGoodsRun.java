@@ -93,7 +93,7 @@ public class UserGoodsRun {
             Map<String,String> mapA = new HashMap();
             Map<String,String> mapB = new HashMap();
 
-            for(Text v : v3){
+            for(Text v : v3) {
                 String[] score = v.toString().split(":");
                 if (score[0].equals("A")) {
                     mapA.put(score[1].split(",")[0], score[1].split(",")[1]);

@@ -1,6 +1,7 @@
 package org.lzz.chat.controller;
 
 
+import org.apache.derby.impl.store.access.heap.Heap;
 import org.lzz.chat.container.TokenUser;
 import org.lzz.chat.domain.User;
 import org.lzz.chat.entity.ClientType;
@@ -11,13 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired private TokenUser tokenUser;
-    @Autowired private SnowFlakeGenerator snowFlakeGenerator;
-    @Autowired private UserMapper userMapper;
+    @Autowired private TokenUser            tokenUser;
+    @Autowired private SnowFlakeGenerator   snowFlakeGenerator;
+    @Autowired private UserMapper           userMapper;
 
     @RequestMapping("/login")
     public String login(ClientType clientType, String username, String pwd) {

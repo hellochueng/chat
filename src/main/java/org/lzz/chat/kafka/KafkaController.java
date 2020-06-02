@@ -18,15 +18,24 @@ public class KafkaController {
 
     @GetMapping("/kafka")
     public String testKafka() {
-        int iMax = 100;
+        int iMax = 10;
         for (int i = 1; i < iMax; i++) {
             kafkaTemplate.send("test","key" + i, "data" + i);
         }
         return "success";
     }
 
-//    @KafkaListener(topics = "test")
-//    public void receive(ConsumerRecord<?, ?> consumer) {
-//        System.out.println("{"+consumer.topic()+"} - {"+consumer.key()+"}:{"+consumer.value()+"}");
-//    }
+    @GetMapping("/kafka/student")
+    public String student() {
+        int iMax = 10;
+        for (int i = 1; i < iMax; i++) {
+            kafkaTemplate.send("metrics-group","key" + i, "data" + i);
+        }
+        return "success";
+    }
+
+    @KafkaListener(topics = "test")
+    public void receive(ConsumerRecord<?, ?> consumer) {
+        System.out.println("{"+consumer.topic()+"} - {"+consumer.key()+"}:{"+consumer.value()+"}");
+    }
 }

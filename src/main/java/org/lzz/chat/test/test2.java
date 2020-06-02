@@ -21,8 +21,10 @@ public class test2 {
     }
 
     public static void main(String[] args) {
-        Date a = new Date(1573228740000L);
-        System.out.println(CommonUtils.formatToChinese(a));
+        Map a = new HashMap();
+        a.put("1","1");
+//        Date a = new Date(1573228740000L);
+//        System.out.println(CommonUtils.formatToChinese(a));
 //        TreeNode root = new TreeNode(1);
 //        root.left = new TreeNode(2);
 //        root.left.left = new TreeNode(4);

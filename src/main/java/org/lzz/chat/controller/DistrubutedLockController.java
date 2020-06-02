@@ -27,4 +27,18 @@ public class DistrubutedLockController {
         redisDistributedLock.releaseLock("lock1",redisDistributedLock.get("lock1"));
         return Result.success();
     }
+
+    @RequestMapping("aa")
+    public void ss(){
+        new Thread(()->{
+            try {
+                for (int i = 0; i < 10; i++) {
+                    System.out.println("第 " + i + " 次");
+                    Thread.sleep(100);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 }

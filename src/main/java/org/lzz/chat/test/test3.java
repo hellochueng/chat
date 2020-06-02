@@ -6,7 +6,9 @@ import java.util.concurrent.CountDownLatch;
 public class test3 {
 
     static int i = 1;
+    abstract static class a {
 
+    }
     public static void main(String[] args) throws InterruptedException {
 //        int[] s = new int[]{1,2};
 //        String something = null;
@@ -41,7 +43,7 @@ public class test3 {
 //        System.out.println(g.sort(1));
 
 
-        List<String> names = Arrays.asList("peter", "anna", "aake", "xenia");
+//        List<String> names = Arrays.asList("peter", "anna", "aake", "xenia");
 //        names.sort((a,b)-> a.compareTo(b));
 //13530647233
 //        names.forEach((a)-> System.out.println(a));
@@ -60,10 +62,10 @@ public class test3 {
 //        System.out.println(converted);    // "J"
 
 
-        int num = 1;
+//        int num = 1;
 //        Converter<Integer, String> stringConverter =
 //                (from) -> String.valueOf(from + num);
-        num = 3;//在lambda表达式中试图修改num同样是不允许的。
+//        num = 3;//在lambda表达式中试图修改num同样是不允许的。
     }
 
     static class Something {

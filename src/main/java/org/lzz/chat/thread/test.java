@@ -10,7 +10,6 @@ public class test {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         //1. 创建线程池
         ExecutorService pool = Executors.newFixedThreadPool(5);
-
         List<Future<Integer>> list=new ArrayList<Future<Integer>>();
 
         for (int i = 0; i < 10; i++) {

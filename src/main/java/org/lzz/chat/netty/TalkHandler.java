@@ -104,9 +104,7 @@ public class TalkHandler extends SimpleChannelInboundHandler<Object> {
 
             //消息转成Mage
             Mes mes = Mes.strJson2Mage(text);
-
             User user = tokenUser.getUserByToken(mes.getToken());
-
             Set<String> roomUsers =  talkRoom.getRoomUser(mes.getRoom());
 
             roomUsers.forEach((id)->{

@@ -26,6 +26,8 @@ public class dtgh {
     }
 
     public static void main(String[] args) {
-        MaxChildArrayOrder(new int[]{3,1,4,1,5,9,2,6,5});
+        System.out.println(
+        MaxChildArrayOrder(new int[]{3,1,4,1,5,9,2,6,5})
+        );
     }
 }
