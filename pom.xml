@@ -31,7 +31,7 @@
         <docker.host>http://192.168.1.198:2375</docker.host>
         <flink.version>1.4.1</flink.version>
         <spark.version>2.10</spark.version>
-        <spark_id_version>2.1.0</spark_id_version>
+        <spark_id_version>2.2.3</spark_id_version>
     </properties>
 
     <dependencies>
