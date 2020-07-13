@@ -176,6 +176,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
+        <!-- cglib 动态代理依赖 begin -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.2.5</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.ow2.asm</groupId>-->
+            <!--<artifactId>asm</artifactId>-->
+            <!--<version>1.0</version>-->
+            <!--<optional>true</optional>-->
+        <!--</dependency>-->
+        <!-- cglib 动态代理依赖 stop -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -315,102 +328,102 @@
                         </resource>
                     </resources>
                 </configuration>
-                <executions>
-                    <!-- package之前清除上一次构建的image -->
-                    <execution>
-                        <id>remove-image</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>removeImage</goal>
-                        </goals>
-                        <configuration>
-                            <imageName>
-                                ${project.name}/${project.artifactId}
-                            </imageName>
-                            <imageTags>
-                                <imageTag>${project.version}</imageTag>
-                                <imageTag>latest</imageTag>
-                            </imageTags>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>remove-tag-image</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>removeImage</goal>
-                        </goals>
-                        <configuration>
-                            <imageName>
-                                ${docker.registry}/${project.name}/${project.artifactId}
-                            </imageName>
-                            <imageTags>
-                                <imageTag>${project.version}</imageTag>
-                                <imageTag>latest</imageTag>
-                            </imageTags>
-                        </configuration>
-                    </execution>
-                    <!-- 将docker:build绑定到package这个phase  -->
-                    <execution>
-                        <id>build-image</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                        <configuration>
-                            <!-- imageName中若不指定tag，则会打上latest -->
-                            <imageName>${project.name}/${project.artifactId}:${project.version}</imageName>
-                            <!-- 可以使用<imageTags>标签打其他额外的tag -->
-                        </configuration>
-                    </execution>
-                    <!-- 将docker:tag绑定到package这个phase  -->
-                    <execution>
-                        <id>tag-image</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>tag</goal>
-                        </goals>
-                        <configuration>
-                            <image>${project.name}/${project.artifactId}:${project.version}</image>
-                            <newName>${docker.registry}/${project.name}/${project.artifactId}:${project.version}</newName>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>tag-image-latest</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>tag</goal>
-                        </goals>
-                        <configuration>
-                            <image>${project.name}/${project.artifactId}:${project.version}</image>
-                            <newName>${docker.registry}/${project.name}/${project.artifactId}:latest</newName>
-                        </configuration>
-                    </execution>
-                    <!-- 将docker:push绑定到deploy这个phase  -->
-                    <execution>
-                        <id>push-image</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>push</goal>
-                        </goals>
-                        <configuration>
-                            <imageName>
-                                ${docker.registry}/${project.name}/${project.artifactId}:${project.version}
-                            </imageName>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>push-image-latest</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>push</goal>
-                        </goals>
-                        <configuration>
-                            <imageName>
-                                ${docker.registry}/${project.name}/${project.artifactId}:latest
-                            </imageName>
-                        </configuration>
-                    </execution>
-                </executions>
+                <!--<executions>-->
+                    <!--&lt;!&ndash; package之前清除上一次构建的image &ndash;&gt;-->
+                    <!--<execution>-->
+                        <!--<id>remove-image</id>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>removeImage</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<imageName>-->
+                                <!--${project.name}/${project.artifactId}-->
+                            <!--</imageName>-->
+                            <!--<imageTags>-->
+                                <!--<imageTag>${project.version}</imageTag>-->
+                                <!--<imageTag>latest</imageTag>-->
+                            <!--</imageTags>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                    <!--<execution>-->
+                        <!--<id>remove-tag-image</id>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>removeImage</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<imageName>-->
+                                <!--${docker.registry}/${project.name}/${project.artifactId}-->
+                            <!--</imageName>-->
+                            <!--<imageTags>-->
+                                <!--<imageTag>${project.version}</imageTag>-->
+                                <!--<imageTag>latest</imageTag>-->
+                            <!--</imageTags>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                    <!--&lt;!&ndash; 将docker:build绑定到package这个phase  &ndash;&gt;-->
+                    <!--<execution>-->
+                        <!--<id>build-image</id>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>build</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--&lt;!&ndash; imageName中若不指定tag，则会打上latest &ndash;&gt;-->
+                            <!--<imageName>${project.name}/${project.artifactId}:${project.version}</imageName>-->
+                            <!--&lt;!&ndash; 可以使用<imageTags>标签打其他额外的tag &ndash;&gt;-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                    <!--&lt;!&ndash; 将docker:tag绑定到package这个phase  &ndash;&gt;-->
+                    <!--<execution>-->
+                        <!--<id>tag-image</id>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>tag</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<image>${project.name}/${project.artifactId}:${project.version}</image>-->
+                            <!--<newName>${docker.registry}/${project.name}/${project.artifactId}:${project.version}</newName>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                    <!--<execution>-->
+                        <!--<id>tag-image-latest</id>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>tag</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<image>${project.name}/${project.artifactId}:${project.version}</image>-->
+                            <!--<newName>${docker.registry}/${project.name}/${project.artifactId}:latest</newName>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                    <!--&lt;!&ndash; 将docker:push绑定到deploy这个phase  &ndash;&gt;-->
+                    <!--<execution>-->
+                        <!--<id>push-image</id>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>push</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<imageName>-->
+                                <!--${docker.registry}/${project.name}/${project.artifactId}:${project.version}-->
+                            <!--</imageName>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                    <!--<execution>-->
+                        <!--<id>push-image-latest</id>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>push</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<imageName>-->
+                                <!--${docker.registry}/${project.name}/${project.artifactId}:latest-->
+                            <!--</imageName>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
             </plugin>
         </plugins>
     </build>
