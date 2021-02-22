@@ -134,14 +134,34 @@ public class BaseZookeeper implements Watcher{
          zookeeper.close();
       }
    }
+
+   /**
+    * 删除节点
+    * @param path
+    * @throws InterruptedException
+    * @throws KeeperException
+    */
+   public void deleteAllNode(String path,List<String> children) {
+       children.forEach(a->{
+           String cp=path+"/"+a;
+           try {
+               List<String> c = zookeeper.getChildren(cp, true);
+               if(c.size()>0){
+                   deleteAllNode(cp,c);
+               } else {
+                   zookeeper.delete(cp, -1);
+               }
+           } catch (KeeperException|InterruptedException e) {
+               e.printStackTrace();
+           }
+       });
+   }
+
    public static void main(String[] args) throws Exception {
-       BaseZookeeper zookeeper = new BaseZookeeper();
-       zookeeper.connectZookeeper("192.168.1.157:2181");
-       List<String> children = zookeeper.getChildren("/kafka");
-//      String a = zookeeper.getData("/registry/data0000000008");
-//      System.out.println(a);
-//      zookeeper.createNode("/rpc","/service.UserService");
-//      List<String> children = zookeeper.getChildren("/rpc");
-       System.out.println(children);
+       BaseZookeeper zookeeper1 = new BaseZookeeper();
+       zookeeper1.connectZookeeper("127.0.0.1:2181");
+       String path = "/zookeeper";
+       zookeeper1.deleteAllNode(path,zookeeper1.zookeeper.getChildren(path, false));
+       zookeeper1.deleteNode(path);
    }
 }
