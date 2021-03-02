@@ -13,7 +13,7 @@ import java.net.URL;
 public class hadoop {
 
     public static void main(String[] args) throws IOException, URISyntaxException, InterruptedException {
-        String HDFS_PATH = "hdfs://139.199.208.159:9000"; //要连接的hadoop
+        String HDFS_PATH = "hdfs://localhost:9000"; //要连接的hadoop
         Configuration configuration = new Configuration();
         configuration.set("fs.defaultFS", HDFS_PATH);
 

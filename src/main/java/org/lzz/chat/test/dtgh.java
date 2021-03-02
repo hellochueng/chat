@@ -1,5 +1,6 @@
 package org.lzz.chat.test;
 
+
 public class dtgh {
     public static int MaxChildArrayOrder(int a[]) {
         int n = a.length;
@@ -24,10 +25,51 @@ public class dtgh {
         }
         return max;
     }
-
-    public static void main(String[] args) {
-        System.out.println(
-        MaxChildArrayOrder(new int[]{3,1,4,1,5,9,2,6,5})
-        );
+    static class a {
+        private String x="1";
+        private String b="q";
+        public String getX() {
+            return x;
+        }
+        public void setX(String x) {
+            this.x = x;
+        }
+        public String getB() {
+            return b;
+        }
+        public void setB(String b) {
+            this.b = b;
+        }
     }
+    static class b{
+        private String x;
+        private String z;
+        public String getX() {
+            return x;
+        }
+        public void setX(String x) {
+            this.x = x;
+        }
+        public String getZ() {
+            return z;
+        }
+        public void setZ(String z) {
+            this.z = z;
+        }
+    }
+    public static void main(String[] args) {
+//        System.out.println(
+//        MaxChildArrayOrder(new int[]{3,1,4,1,5,9,2,6,5})
+//        );
+
+
+//        Gson gs=new Gson();
+//        a a1 = new a();
+//
+//        String json = gs.toJson(a1);
+//        b b = gs.fromJson(json, b.class);
+//        System.out.println(b);
+    }
+
+
 }

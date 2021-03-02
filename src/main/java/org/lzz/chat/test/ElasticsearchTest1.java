@@ -26,9 +26,6 @@ public class ElasticsearchTest1 {
 
     /**
      * 测试Elasticsearch客户端连接
-     * @Title: test1
-     * @author sunt
-     * @date 2017年11月22日
      * @return void
      * @throws UnknownHostException
      */
@@ -54,5 +51,6 @@ public class ElasticsearchTest1 {
     public static void main(String[] args) throws UnknownHostException {
         Client client = getClient();
         System.out.println(client.prepareIndex());
+        new Thread().start();
     }
 }
