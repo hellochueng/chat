@@ -23,7 +23,7 @@
         <hadoop.mapreduce.client.common.version>2.4.0</hadoop.mapreduce.client.common.version>
         <hadoop.mapreduce.client.jobclient.version>2.4.0</hadoop.mapreduce.client.jobclient.version>
         <commons.lang.version>3.3.2</commons.lang.version>
-        <commons.io.version>2.4</commons.io.version>
+        <commons.io.version>2.7</commons.io.version>
         <project.name>lzz</project.name>
         <!-- 私有仓库配置，需要settings.xml文件配合serverId对应的仓库服务 账号密码 -->
         <docker.serverId>192.168.1.198</docker.serverId>
